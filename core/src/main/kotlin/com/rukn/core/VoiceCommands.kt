@@ -54,7 +54,7 @@ object ArabicVoice {
         "ميه" to 100,"مئه" to 100,"مائه" to 100,"الف" to 1000,"الفين" to 2000,"الفان" to 2000,
         "مئتين" to 200,"مئتان" to 200,"مايه" to 100
     )
-    private val skip=setOf("و","ال","من","في","يوم","اليوم","شهر","سنه","سنة","عام","الى","إلى","سنه","عدد","هو","رقم")
+    private val skip=setOf("و","ال","من","في","يوم","اليوم","شهر","سنه","سنة","عام","الى","إلى","سنه","الي","عدد","هو","رقم")
     /** Returns null rather than inventing a number from an unfamiliar phrase. */
     fun number(s:String):Int? {
         val n=normalized(s).replace(Regex("[،,:;.]")," ").trim()
@@ -112,7 +112,7 @@ object VoiceCommandEngine {
     private val numericDate=Regex("(?<!\\d)(\\d{4})[-/.](\\d{1,2})(?:[-/.](\\d{1,2}))?(?!\\d)|(?<!\\d)(\\d{1,2})[-/.](\\d{1,2})[-/.](\\d{2,4})(?!\\d)")
     private val nounQuantity=Regex("([\\p{L}0-9]+(?:\\s+(?:و?[\\p{L}0-9]+)){0,3}?)\\s*(?:كرتون|كراتين|كراتون|كرتونه|حبات|حبه|حبتين|قطع|قطعه|عبوات|عبوه)")
     private fun norm(s:String)=ArabicVoice.normalized(s)
-    private fun cleanValue(s:String)=s.trim(' ',':','-','،','.') .removePrefix("هو ").removePrefix("هي ").removePrefix("الى ").removePrefix("لـ").trim()
+    private fun cleanValue(s:String)=s.trim(' ',':','-','،','.') .removePrefix("هو ").removePrefix("هي ").removePrefix("الى ").removePrefix("الي ").removePrefix("لـ").trim()
     private fun namedMonth(text:String):Int?=monthNames.entries.firstOrNull{Regex("(?<![\\p{L}])${Regex.escape(it.key)}(?![\\p{L}])").containsMatchIn(text)}?.value
     private fun shortYear(n:Int,warnings:MutableList<String>):Int {
         return if(n in 0..99){warnings+="سنة '$n' مختصرة؛ فُسرت إلى ${2000+n}. أكد السنة قبل الحفظ.";2000+n} else n
