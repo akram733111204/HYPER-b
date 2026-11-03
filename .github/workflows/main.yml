@@ -43,8 +43,10 @@ jobs:
       - name: Validate voice server
         run: node --check server/voice-server.mjs
 
+
       - name: Run Kotlin tests
-        run: gradle --no-daemon :core:test
+        run: gradle --no-daemon :core:test --stacktrace --info
+
 
       - name: Build Android APK
         run: gradle --no-daemon :app:assembleDebug
